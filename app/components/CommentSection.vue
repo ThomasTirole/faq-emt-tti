@@ -37,7 +37,11 @@
       >
         <div class="flex justify-between items-start mb-2">
           <div class="flex items-center gap-2">
-            <UAvatar :alt="comment.profiles?.username" size="xs" />
+            <UAvatar 
+              :src="comment.profiles?.avatar_url" 
+              :alt="comment.profiles?.username" 
+              size="xs" 
+            />
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
               {{ comment.profiles?.username || 'Anonymous' }}
             </span>
@@ -58,6 +62,16 @@
         </div>
       </div>
     </div>
+    
+    <!-- Delete Comment Confirmation Dialog -->
+    <ConfirmDialog 
+      v-model="showDeleteCommentDialog"
+      title="Delete Comment"
+      message="Are you sure you want to delete this comment?"
+      confirm-text="Delete"
+      confirm-color="red"
+      @confirm="confirmDeleteComment"
+    />
   </div>
 </template>
 
@@ -72,6 +86,8 @@ const user = useSupabaseUser()
 const newComment = ref('')
 const submitting = ref(false)
 const deletingCommentId = ref<number | null>(null)
+const showDeleteCommentDialog = ref(false)
+const commentToDelete = ref<number | null>(null)
 
 // Fetch comments
 const { data: comments, pending, refresh } = await useAsyncData(
@@ -107,16 +123,25 @@ const submitComment = async () => {
     newComment.value = ''
     await refresh()
   } catch (error: any) {
-    alert(error.message)
+    useToast().add({
+      title: 'Error',
+      description: error.message,
+      color: 'red'
+    })
   } finally {
     submitting.value = false
   }
 }
 
-const deleteComment = async (commentId: number) => {
-  if (!confirm('Are you sure you want to delete this comment?')) return
+const deleteComment = (commentId: number) => {
+  commentToDelete.value = commentId
+  showDeleteCommentDialog.value = true
+}
 
-  deletingCommentId.value = commentId
+const confirmDeleteComment = async () => {
+  if (!commentToDelete.value) return
+
+  deletingCommentId.value = commentToDelete.value
   try {
     const { error } = await client
       .from('comments')
@@ -127,7 +152,11 @@ const deleteComment = async (commentId: number) => {
 
     await refresh()
   } catch (error: any) {
-    alert(error.message)
+    useToast().add({
+      title: 'Error',
+      description: error.message,
+      color: 'red'
+    })
   } finally {
     deletingCommentId.value = null
   }

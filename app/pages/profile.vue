@@ -101,13 +101,21 @@ const handleAvatarUpload = (event: Event) => {
   
   // Check file size (2MB max)
   if (file.size > 2 * 1024 * 1024) {
-    alert('File size must be less than 2MB')
+    useToast().add({
+      title: 'Error',
+      description: 'File size must be less than 2MB',
+      color: 'red'
+    })
     return
   }
   
   // Check file type
   if (!file.type.startsWith('image/')) {
-    alert('Please upload an image file')
+    useToast().add({
+      title: 'Error',
+      description: 'Please upload an image file',
+      color: 'red'
+    })
     return
   }
   
@@ -131,8 +139,8 @@ const saveProfile = async () => {
     // Upload avatar if changed
     if (avatarFile.value) {
       const fileExt = avatarFile.value.name.split('.').pop()
-      const fileName = `${user.value.id}-${Date.now()}.${fileExt}`
-      const filePath = `avatars/${fileName}`
+      const fileName = `${Date.now()}.${fileExt}`
+      const filePath = `${user.value.id}/${fileName}`
       
       const { error: uploadError } = await client.storage
         .from('avatars')
@@ -158,10 +166,18 @@ const saveProfile = async () => {
     
     if (error) throw error
     
-    alert('Profile updated successfully!')
+    useToast().add({
+      title: 'Success',
+      description: 'Profile updated successfully!',
+      color: 'green'
+    })
     router.push('/')
   } catch (error: any) {
-    alert(error.message)
+    useToast().add({
+      title: 'Error',
+      description: error.message,
+      color: 'red'
+    })
   } finally {
     saving.value = false
   }

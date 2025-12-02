@@ -14,31 +14,44 @@
         </UBadge>
       </div>
 
-      <!-- Tags -->
-      <div class="flex gap-1 flex-shrink-0">
-        <UBadge 
-          v-for="tag in question.tags?.slice(0, 3)" 
-          :key="tag" 
-          color="gray" 
-          variant="soft" 
-          size="xs"
-        >
-          {{ tag }}
-        </UBadge>
-        <UBadge 
-          v-if="question.tags && question.tags.length > 3" 
-          color="gray" 
-          variant="soft" 
-          size="xs"
-        >
-          +{{ question.tags.length - 3 }}
-        </UBadge>
+      <!-- Tags with Icon -->
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <UIcon name="i-heroicons-tag" class="w-4 h-4 text-gray-400" />
+        <div class="flex gap-1">
+          <UBadge 
+            v-for="tag in question.tags?.slice(0, 3)" 
+            :key="tag" 
+            color="gray" 
+            variant="soft" 
+            size="xs"
+          >
+            {{ tag }}
+          </UBadge>
+          <UBadge 
+            v-if="question.tags && question.tags.length > 3" 
+            color="gray" 
+            variant="soft" 
+            size="xs"
+          >
+            +{{ question.tags.length - 3 }}
+          </UBadge>
+        </div>
       </div>
 
-      <!-- Author and Date -->
-      <div class="flex items-center gap-3 text-sm text-gray-500 flex-shrink-0">
-        <span>by {{ question.profiles?.username || 'Anonymous' }}</span>
-        <span>{{ formatDate(question.created_at) }}</span>
+      <!-- Author with Avatar and Date with Icon -->
+      <div class="flex items-center gap-4 text-sm text-gray-500 flex-shrink-0">
+        <div class="flex items-center gap-2">
+          <UAvatar 
+            :src="question.profiles?.avatar_url" 
+            :alt="question.profiles?.username" 
+            size="xs" 
+          />
+          <span>{{ question.profiles?.username || 'Anonymous' }}</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
+          <span>{{ formatDate(question.created_at) }}</span>
+        </div>
       </div>
     </div>
   </div>

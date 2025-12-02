@@ -21,7 +21,10 @@
           </UBadge>
         </div>
         <div class="flex gap-2 items-center">
-          <span class="text-sm text-gray-500">{{ formatDate(question.created_at) }}</span>
+          <div class="flex items-center gap-1 text-sm text-gray-500">
+            <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
+            <span>{{ formatDate(question.created_at) }}</span>
+          </div>
           <UButton 
             v-if="canToggleAnswered"
             :color="question.is_answered ? 'gray' : 'green'" 
@@ -47,26 +50,49 @@
         </div>
       </div>
 
+      <!-- Separator -->
+      <UDivider class="my-4" />
+
+      <!-- Author with Avatar -->
       <div class="flex items-center gap-2 mb-6">
-        <UAvatar :alt="question.profiles?.username" size="xs" />
+        <UAvatar 
+          :src="question.profiles?.avatar_url" 
+          :alt="question.profiles?.username" 
+          size="sm" 
+        />
         <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ question.profiles?.username || 'Anonymous' }}</span>
       </div>
-
-      <USeparator color="primary" type="solid" />
 
       <div class="prose dark:prose-invert max-w-none mb-6">
         <MDC :value="question.description" />
       </div>
 
-      <div class="flex gap-2">
-        <UBadge v-for="tag in question.tags" :key="tag" color="gray" variant="soft">
-          {{ tag }}
-        </UBadge>
+      <!-- Separator -->
+      <UDivider class="my-4" />
+
+      <!-- Tags with Icon -->
+      <div class="flex items-center gap-2">
+        <UIcon name="i-heroicons-tag" class="w-5 h-5 text-gray-400" />
+        <div class="flex gap-2">
+          <UBadge v-for="tag in question.tags" :key="tag" color="primary" variant="soft">
+            {{ tag }}
+          </UBadge>
+        </div>
       </div>
     </div>
 
     <!-- Comments Section -->
     <CommentSection :question-id="question.id" />
+    
+    <!-- Delete Confirmation Dialog -->
+    <ConfirmDialog 
+      v-model="showDeleteDialog"
+      title="Delete Question"
+      message="Are you sure you want to delete this question? This will also delete all comments."
+      confirm-text="Delete"
+      confirm-color="red"
+      @confirm="confirmDelete"
+    />
   </div>
 </template>
 
@@ -78,6 +104,7 @@ const user = useSupabaseUser()
 
 const deleting = ref(false)
 const toggling = ref(false)
+const showDeleteDialog = ref(false)
 
 const { data: question, pending, error } = await useAsyncData(`question-${route.params.id}`, async () => {
   const { data } = await client
@@ -134,8 +161,11 @@ const toggleAnswered = async () => {
   }
 }
 
-const deleteQuestion = async () => {
-  if (!confirm('Are you sure you want to delete this question? This will also delete all comments.')) return
+const deleteQuestion = () => {
+  showDeleteDialog.value = true
+}
+
+const confirmDelete = async () => {
 
   deleting.value = true
   try {
@@ -146,9 +176,18 @@ const deleteQuestion = async () => {
 
     if (error) throw error
 
+    useToast().add({
+      title: 'Question deleted',
+      description: 'The question has been deleted successfully.',
+      color: 'green'
+    })
     router.push('/')
   } catch (error: any) {
-    alert(error.message)
+    useToast().add({
+      title: 'Error',
+      description: error.message,
+      color: 'red'
+    })
   } finally {
     deleting.value = false
   }

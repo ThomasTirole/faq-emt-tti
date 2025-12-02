@@ -53,8 +53,14 @@
       <QuestionCard v-for="q in paginatedQuestions" :key="q.id" :question="q" />
       
       <!-- Pagination -->
-      <div v-if="totalPages > 1" class="flex justify-center mt-6">
-        <UPagination v-model="currentPage" :total="filteredQuestions.length" :per-page="perPage" />
+      <div v-if="filteredQuestions.length > perPage" class="flex justify-center mt-6">
+        <UPagination 
+          v-model="currentPage" 
+          :total="filteredQuestions.length" 
+          :page-count="perPage"
+          show-last
+          show-first
+        />
       </div>
     </div>
   </div>
