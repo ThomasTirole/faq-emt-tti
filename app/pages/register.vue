@@ -48,6 +48,7 @@
 const client = useSupabaseClient()
 const user = useSupabaseUser()
 const router = useRouter()
+const config = useRuntimeConfig()
 
 const email = ref('')
 const password = ref('')
@@ -69,7 +70,8 @@ const handleRegister = async () => {
       options: {
         data: {
           username: username.value
-        }
+        },
+        emailRedirectTo: `${config.public.siteUrl}/confirm`
       }
     })
     if (error) throw error
