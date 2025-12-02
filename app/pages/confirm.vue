@@ -40,7 +40,7 @@ onMounted(() => {
 
   if (error) {
     title.value = 'Confirmation Failed'
-    message.value = errorDescription?.replace(/\+/g, ' ') || 'An error occurred during confirmation.'
+    message.value = errorDescription ? decodeURIComponent(errorDescription) : 'An error occurred during confirmation.'
   }
 })
 </script>
