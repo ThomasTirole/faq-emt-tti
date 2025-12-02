@@ -146,7 +146,7 @@ const confirmDeleteComment = async () => {
     const { error } = await client
       .from('comments')
       .delete()
-      .eq('id', commentId)
+      .eq('id', commentToDelete.value)
 
     if (error) throw error
 

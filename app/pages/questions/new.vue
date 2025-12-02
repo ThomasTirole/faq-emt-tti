@@ -61,6 +61,8 @@ const submitQuestion = async () => {
 
     if (error) throw error
     
+    // Refresh the questions list data before navigating
+    await refreshNuxtData('questions')
     router.push('/')
   } catch (error: any) {
     alert(error.message)
