@@ -37,6 +37,7 @@ jobs:
           NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          NUXT_PUBLIC_SITE_URL: ${{ secrets.NUXT_PUBLIC_SITE_URL }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

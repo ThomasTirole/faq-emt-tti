@@ -87,6 +87,7 @@ Before the deployment can work, you need to configure the following secrets in y
 3. Click **New repository secret** and add:
    - `SUPABASE_URL`: Your Supabase project URL (e.g., `https://your-project.supabase.co`)
    - `SUPABASE_KEY`: Your Supabase **anonymous/public** key (anon key) - **never** use the service role key
+   - `NUXT_PUBLIC_SITE_URL`: Your production site URL (e.g., `https://your-app.github.io/your-repo`) - This is required for email confirmation links to work correctly
 
 > **Note**: The anonymous key is safe to use in client-side applications as it only allows operations permitted by your Row Level Security (RLS) policies. You can find these values in your Supabase project under **Settings** > **API**.
 
