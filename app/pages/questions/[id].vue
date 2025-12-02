@@ -14,9 +14,25 @@
     
     <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
       <div class="flex justify-between items-start mb-4">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ question.title }}</h1>
-        <div class="flex gap-2">
+        <div class="flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ question.title }}</h1>
+          <UBadge v-if="question.is_answered" color="green" variant="soft">
+            ✓ Answered
+          </UBadge>
+        </div>
+        <div class="flex gap-2 items-center">
           <span class="text-sm text-gray-500">{{ formatDate(question.created_at) }}</span>
+          <UButton 
+            v-if="canToggleAnswered"
+            :color="question.is_answered ? 'gray' : 'green'" 
+            variant="ghost" 
+            size="sm"
+            :icon="question.is_answered ? 'i-heroicons-x-mark' : 'i-heroicons-check'"
+            @click="toggleAnswered"
+            :loading="toggling"
+          >
+            {{ question.is_answered ? 'Mark Unanswered' : 'Mark Answered' }}
+          </UButton>
           <UButton 
             v-if="canDelete"
             color="red" 
@@ -35,6 +51,8 @@
         <UAvatar :alt="question.profiles?.username" size="xs" />
         <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ question.profiles?.username || 'Anonymous' }}</span>
       </div>
+
+      <USeparator color="primary" type="solid" />
 
       <div class="prose dark:prose-invert max-w-none mb-6">
         <MDC :value="question.description" />
@@ -59,6 +77,7 @@ const client = useSupabaseClient()
 const user = useSupabaseUser()
 
 const deleting = ref(false)
+const toggling = ref(false)
 
 const { data: question, pending, error } = await useAsyncData(`question-${route.params.id}`, async () => {
   const { data } = await client
@@ -90,6 +109,30 @@ const canDelete = computed(() => {
   const isAdmin = userProfile.value?.is_admin || false
   return isOwner || isAdmin
 })
+
+// Check if user can toggle answered status (same as delete)
+const canToggleAnswered = computed(() => canDelete.value)
+
+const toggleAnswered = async () => {
+  if (!question.value) return
+
+  toggling.value = true
+  try {
+    const { error } = await client
+      .from('questions')
+      .update({ is_answered: !question.value.is_answered })
+      .eq('id', route.params.id)
+
+    if (error) throw error
+
+    // Update local data
+    question.value.is_answered = !question.value.is_answered
+  } catch (error: any) {
+    alert(error.message)
+  } finally {
+    toggling.value = false
+  }
+}
 
 const deleteQuestion = async () => {
   if (!confirm('Are you sure you want to delete this question? This will also delete all comments.')) return

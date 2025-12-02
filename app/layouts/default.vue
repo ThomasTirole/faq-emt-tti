@@ -3,9 +3,16 @@
     <nav class="bg-white dark:bg-gray-800 shadow">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-          <div class="flex">
+          <div class="flex gap-6">
             <NuxtLink to="/" class="flex-shrink-0 flex items-center">
               <span class="text-xl font-bold text-gray-800 dark:text-white">Student Q&A</span>
+            </NuxtLink>
+            <NuxtLink 
+              v-if="user"
+              to="/my-questions" 
+              class="flex items-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+            >
+              My Questions
             </NuxtLink>
           </div>
           <div class="flex items-center">
