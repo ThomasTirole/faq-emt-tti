@@ -16,7 +16,7 @@
 
       <!-- Tags with Icon -->
       <div class="flex items-center gap-2 flex-shrink-0">
-        <UIcon name="i-heroicons-tag" class="w-4 h-4 text-gray-400" />
+        <UIcon v-if="question.tags.length > 0" name="i-heroicons-tag" class="w-4 h-4 text-gray-400" />
         <div class="flex gap-1">
           <UBadge 
             v-for="tag in question.tags?.slice(0, 3)" 

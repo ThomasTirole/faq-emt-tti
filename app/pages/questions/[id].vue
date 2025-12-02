@@ -51,7 +51,8 @@
       </div>
 
       <!-- Separator -->
-      <UDivider class="my-4" />
+      <UDivider class="my-6 w-full border-t-2 border-gray-500 dark:border-gray-300" />
+
 
       <!-- Author with Avatar -->
       <div class="flex items-center gap-2 mb-6">
@@ -66,13 +67,13 @@
       <div class="prose dark:prose-invert max-w-none mb-6">
         <MDC :value="question.description" />
       </div>
-
+    
       <!-- Separator -->
-      <UDivider class="my-4" />
+      <UDivider class="my-6 w-full border-t border-gray-300 dark:border-gray-600" />
 
       <!-- Tags with Icon -->
       <div class="flex items-center gap-2">
-        <UIcon name="i-heroicons-tag" class="w-5 h-5 text-gray-400" />
+        <UIcon v-if="question.tags.length > 0" name="i-heroicons-tag" class="w-5 h-5 text-gray-400" />
         <div class="flex gap-2">
           <UBadge v-for="tag in question.tags" :key="tag" color="primary" variant="soft">
             {{ tag }}
