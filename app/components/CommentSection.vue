@@ -102,8 +102,14 @@ const { data: comments, pending, refresh } = await useAsyncData(
       .eq('question_id', props.questionId)
       .order('created_at', { ascending: true })
     return data
-  }
+  },
+  { server: false }
 )
+
+// Refresh data when component is mounted (handles client-side navigation)
+onMounted(() => {
+  refresh()
+})
 
 const submitComment = async () => {
   if (!user.value || !newComment.value.trim()) return

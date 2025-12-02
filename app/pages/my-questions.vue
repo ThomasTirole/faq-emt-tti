@@ -58,7 +58,7 @@ const selectedTags = ref<string[]>([])
 const currentPage = ref(1)
 const perPage = 20
 
-const { data: questions, pending, error } = await useAsyncData('my-questions', async () => {
+const { data: questions, pending, error, refresh } = await useAsyncData('my-questions', async () => {
   if (!user.value) return []
   
   const { data } = await client
@@ -70,6 +70,13 @@ const { data: questions, pending, error } = await useAsyncData('my-questions', a
     .eq('user_id', user.value.id)
     .order('created_at', { ascending: false })
   return data
+}, { server: false })
+
+// Refresh data when component is mounted (handles client-side navigation)
+onMounted(() => {
+  if (user.value) {
+    refresh()
+  }
 })
 
 // Extract all unique tags

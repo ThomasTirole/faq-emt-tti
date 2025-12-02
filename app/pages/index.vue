@@ -82,7 +82,7 @@ const statusOptions = [
   { label: 'Unanswered', value: 'unanswered' }
 ]
 
-const { data: questions, pending, error } = await useAsyncData('questions', async () => {
+const { data: questions, pending, error, refresh } = await useAsyncData('questions', async () => {
   const { data } = await client
     .from('questions')
     .select(`
@@ -91,6 +91,11 @@ const { data: questions, pending, error } = await useAsyncData('questions', asyn
     `)
     .order('created_at', { ascending: false })
   return data
+}, { server: false })
+
+// Refresh data when component is mounted (handles client-side navigation)
+onMounted(() => {
+  refresh()
 })
 
 // Extract all unique tags
