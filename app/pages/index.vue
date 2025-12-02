@@ -18,6 +18,8 @@
         <USelectMenu 
           v-model="statusFilter" 
           :options="statusOptions"
+          value-attribute="value"
+          option-attribute="label"
           placeholder="Filter by status"
         />
         
