@@ -78,7 +78,7 @@ const loading = ref(true)
 const saving = ref(false)
 
 // Fetch user profile
-const { data: profile } = await useAsyncData('user-profile', async () => {
+const { data: profile, refresh: refreshProfile } = await useAsyncData('user-profile', async () => {
   if (!user.value) return null
   const { data } = await client
     .from('profiles')
@@ -91,6 +91,13 @@ const { data: profile } = await useAsyncData('user-profile', async () => {
   }
   loading.value = false
   return data
+}, { server: false })
+
+// Refresh data when component is mounted (handles client-side navigation)
+onMounted(() => {
+  if (user.value) {
+    refreshProfile()
+  }
 })
 
 const handleAvatarUpload = (event: Event) => {

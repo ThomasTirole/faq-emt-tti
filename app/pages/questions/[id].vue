@@ -107,7 +107,7 @@ const deleting = ref(false)
 const toggling = ref(false)
 const showDeleteDialog = ref(false)
 
-const { data: question, pending, error } = await useAsyncData(`question-${route.params.id}`, async () => {
+const { data: question, pending, error, refresh } = await useAsyncData(`question-${route.params.id}`, async () => {
   const { data } = await client
     .from('questions')
     .select(`
@@ -117,10 +117,10 @@ const { data: question, pending, error } = await useAsyncData(`question-${route.
     .eq('id', route.params.id)
     .single()
   return data
-})
+}, { server: false })
 
 // Fetch current user's profile to check admin status
-const { data: userProfile } = await useAsyncData('current-user-profile', async () => {
+const { data: userProfile, refresh: refreshUserProfile } = await useAsyncData('current-user-profile', async () => {
   if (!user.value) return null
   const { data } = await client
     .from('profiles')
@@ -128,6 +128,14 @@ const { data: userProfile } = await useAsyncData('current-user-profile', async (
     .eq('id', user.value.id)
     .single()
   return data
+}, { server: false })
+
+// Refresh data when component is mounted (handles client-side navigation)
+onMounted(() => {
+  refresh()
+  if (user.value) {
+    refreshUserProfile()
+  }
 })
 
 // Check if user can delete (owner or admin)
