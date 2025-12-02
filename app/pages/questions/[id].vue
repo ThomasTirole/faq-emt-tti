@@ -155,6 +155,9 @@ const toggleAnswered = async () => {
 
     // Update local data
     question.value.is_answered = !question.value.is_answered
+    
+    // Refresh the questions list data to update the main list
+    await refreshNuxtData('questions')
   } catch (error: any) {
     alert(error.message)
   } finally {
@@ -177,6 +180,9 @@ const confirmDelete = async () => {
 
     if (error) throw error
 
+    // Refresh the questions list data before navigating
+    await refreshNuxtData('questions')
+    
     useToast().add({
       title: 'Question deleted',
       description: 'The question has been deleted successfully.',

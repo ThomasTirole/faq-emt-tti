@@ -166,6 +166,10 @@ const saveProfile = async () => {
     
     if (error) throw error
     
+    // Refresh questions data to show updated username
+    await refreshNuxtData('questions')
+    await refreshNuxtData('my-questions')
+    
     useToast().add({
       title: 'Success',
       description: 'Profile updated successfully!',
