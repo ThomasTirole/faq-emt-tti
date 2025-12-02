@@ -48,7 +48,7 @@
             <span class="text-xs text-gray-500">{{ formatDate(comment.created_at) }}</span>
           </div>
           <UButton 
-            v-if="user && user.id === comment.user_id"
+            v-if="user && (user.id === comment.user_id || userProfile?.is_admin)"
             color="red" 
             variant="ghost" 
             size="xs"
@@ -88,6 +88,17 @@ const submitting = ref(false)
 const deletingCommentId = ref<number | null>(null)
 const showDeleteCommentDialog = ref(false)
 const commentToDelete = ref<number | null>(null)
+
+// Fetch user profile to check admin status
+const { data: userProfile } = await useAsyncData('comment-user-profile', async () => {
+  if (!user.value) return null
+  const { data } = await client
+    .from('profiles')
+    .select('is_admin')
+    .eq('id', user.value.id)
+    .single()
+  return data
+})
 
 // Fetch comments
 const { data: comments, pending, refresh } = await useAsyncData(
