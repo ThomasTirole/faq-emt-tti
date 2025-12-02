@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Recent Questions</h1>
-      <UButton v-if="user" to="/questions/new" icon="i-heroicons-plus">Ask Question</UButton>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Questions Récentes</h1>
+      <UButton v-if="user" to="/questions/new" icon="i-heroicons-plus">Poser une Question</UButton>
     </div>
 
     <!-- Search and Filter -->
@@ -10,7 +10,7 @@
       <UInput 
         v-model="searchQuery" 
         icon="i-heroicons-magnifying-glass"
-        placeholder="Search questions by title or description..." 
+        placeholder="Rechercher des questions par titre ou description..." 
         size="lg"
       />
       
@@ -20,7 +20,7 @@
           :options="statusOptions"
           value-attribute="value"
           option-attribute="label"
-          placeholder="Filter by status"
+          placeholder="Filtrer par statut"
         />
         
         <div v-if="allTags.length > 0" class="flex gap-2 items-center flex-wrap">
@@ -48,7 +48,7 @@
     </div>
 
     <div v-else-if="filteredQuestions && filteredQuestions.length === 0" class="text-center py-10 text-gray-500">
-      {{ questions && questions.length > 0 ? 'No questions match your filters.' : 'No questions yet. Be the first to ask!' }}
+      {{ questions && questions.length > 0 ? 'Aucune question ne correspond à vos filtres.' : 'Aucune question pour le moment. Soyez le premier à poser une question !' }}
     </div>
 
     <div v-else class="space-y-4">
@@ -79,9 +79,9 @@ const currentPage = ref(1)
 const perPage = 20
 
 const statusOptions = [
-  { label: 'All Questions', value: 'all' },
-  { label: 'Answered', value: 'answered' },
-  { label: 'Unanswered', value: 'unanswered' }
+  { label: 'Toutes les Questions', value: 'all' },
+  { label: 'Répondues', value: 'answered' },
+  { label: 'Non Répondues', value: 'unanswered' }
 ]
 
 const { data: questions, pending, error, refresh } = await useAsyncData('questions', async () => {
@@ -89,10 +89,16 @@ const { data: questions, pending, error, refresh } = await useAsyncData('questio
     .from('questions')
     .select(`
       *,
-      profiles (username, avatar_url)
+      profiles (username, avatar_url),
+      comment_count:comments(count)
     `)
     .order('created_at', { ascending: false })
-  return data
+  
+  // Transform comment_count from array to number
+  return data?.map(q => ({
+    ...q,
+    comment_count: q.comment_count?.[0]?.count || 0
+  }))
 }, { server: false })
 
 // Refresh data when component is mounted (handles client-side navigation)

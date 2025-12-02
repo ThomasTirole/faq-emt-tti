@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <!-- Author with Avatar and Date with Icon -->
+      <!-- Author with Avatar, Date with Icon, and Comment Count -->
       <div class="flex items-center gap-4 text-sm text-gray-500 flex-shrink-0">
         <div class="flex items-center gap-2">
           <UAvatar 
@@ -46,11 +46,15 @@
             :alt="question.profiles?.username" 
             size="xs" 
           />
-          <span>{{ question.profiles?.username || 'Anonymous' }}</span>
+          <span>{{ question.profiles?.username || 'Anonyme' }}</span>
         </div>
         <div class="flex items-center gap-1">
           <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
           <span>{{ formatDate(question.created_at) }}</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <UIcon name="i-heroicons-chat-bubble-left" class="w-4 h-4" />
+          <span>{{ question.comment_count || 0 }}</span>
         </div>
       </div>
     </div>
