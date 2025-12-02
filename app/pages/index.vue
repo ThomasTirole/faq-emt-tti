@@ -50,7 +50,12 @@
     </div>
 
     <div v-else class="space-y-4">
-      <QuestionCard v-for="q in filteredQuestions" :key="q.id" :question="q" />
+      <QuestionCard v-for="q in paginatedQuestions" :key="q.id" :question="q" />
+      
+      <!-- Pagination -->
+      <div v-if="totalPages > 1" class="flex justify-center mt-6">
+        <UPagination v-model="currentPage" :total="filteredQuestions.length" :per-page="perPage" />
+      </div>
     </div>
   </div>
 </template>
@@ -62,6 +67,8 @@ const user = useSupabaseUser()
 const searchQuery = ref('')
 const statusFilter = ref('all')
 const selectedTags = ref<string[]>([])
+const currentPage = ref(1)
+const perPage = 20
 
 const statusOptions = [
   { label: 'All Questions', value: 'all' },
@@ -117,6 +124,20 @@ const filteredQuestions = computed(() => {
     
     return true
   })
+})
+
+// Pagination
+const totalPages = computed(() => Math.ceil(filteredQuestions.value.length / perPage))
+
+const paginatedQuestions = computed(() => {
+  const start = (currentPage.value - 1) * perPage
+  const end = start + perPage
+  return filteredQuestions.value.slice(start, end)
+})
+
+// Reset to page 1 when filters change
+watch([searchQuery, statusFilter, selectedTags], () => {
+  currentPage.value = 1
 })
 
 const toggleTag = (tag: string) => {

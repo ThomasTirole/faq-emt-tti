@@ -17,7 +17,7 @@
           </div>
           <div class="flex items-center">
             <template v-if="user">
-              <span class="text-sm text-gray-700 dark:text-gray-300 mr-4">{{ user.email }}</span>
+              <UButton to="/profile" color="gray" variant="ghost" icon="i-heroicons-user-circle" class="mr-2">Profile</UButton>
               <UButton color="gray" variant="ghost" @click="logout">Logout</UButton>
             </template>
             <template v-else>

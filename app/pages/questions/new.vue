@@ -14,7 +14,7 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Tags (comma separated)</label>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Tags (comma separated, max 5)</label>
         <UInput v-model="tagsInput" placeholder="html, css, flexbox" />
       </div>
 
@@ -47,7 +47,7 @@ const submitQuestion = async () => {
   if (!user.value) return
 
   loading.value = true
-  const tags = tagsInput.value.split(',').map(t => t.trim()).filter(t => t)
+  const tags = tagsInput.value.split(',').map(t => t.trim()).filter(t => t).slice(0, 5)
 
   try {
     const { error } = await client
