@@ -8,9 +8,5 @@
 </template>
 
 <script setup>
-useHead({
-  link: [
-    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-  ]
-})
+// Favicon is configured in nuxt.config.ts
 </script>
