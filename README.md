@@ -1,100 +1,310 @@
-# Nuxt Minimal Starter
+# Pakompri - Plateforme de Questions-Réponses pour Étudiants
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+![Nuxt 3](https://img.shields.io/badge/Nuxt-3-00DC82?style=flat&logo=nuxt.js&logoColor=white)
+![Vue 3](https://img.shields.io/badge/Vue-3-4FC08D?style=flat&logo=vue.js&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 
-## Setup
+Pakompri est une plateforme moderne de questions-réponses conçue pour les étudiants du module HTML-CSS de l'EMT. Elle permet aux étudiants de poser des questions, partager leurs connaissances et collaborer efficacement.
 
-Make sure to install dependencies:
+## 🌟 Fonctionnalités
+
+### Gestion des Questions
+- ✅ **Poser des questions** avec titre, description Markdown et tags
+- ✅ **Recherche et filtres** par statut (répondu/non répondu) et tags
+- ✅ **Pagination** (20 questions par page)
+- ✅ **Marquer comme répondu/non répondu** (auteur uniquement)
+- ✅ **Supprimer ses questions** avec confirmation
+- ✅ **Limite de 5 tags** par question
+- ✅ **Compteur de commentaires** sur chaque carte de question
+
+### Système de Commentaires
+- 💬 **Ajouter des commentaires** sur les questions
+- 💬 **Supprimer ses commentaires** avec dialogue de confirmation
+- 💬 **Affichage des avatars** des utilisateurs
+- 💬 **Permissions administrateur** : les super admins peuvent supprimer tous les commentaires
+
+### Profil Utilisateur
+- 👤 **Modifier son nom d'utilisateur**
+- 👤 **Upload de photo de profil** (max 2MB, validation du type)
+- 👤 **Avatars affichés** partout (questions, commentaires)
+- 👤 **Page "Mes questions"** pour voir ses propres questions
+
+### Interface Utilisateur
+- 🎨 **Mode clair/sombre** avec sélecteur dans l'en-tête
+- 🎨 **Design moderne** avec Nuxt UI
+- 🎨 **Interface entièrement en français**
+- 🎨 **Notifications toast** pour les actions (succès/erreur)
+- 🎨 **Dialogues de confirmation** pour les actions destructives
+- 🎨 **Icônes visuelles** (calendrier, tags, commentaires)
+- 🎨 **Séparateurs** pour une meilleure organisation visuelle
+- 🎨 **Responsive** et adapté à tous les écrans
+
+### Authentification
+- 🔐 **Inscription** avec email et mot de passe
+- 🔐 **Connexion** sécurisée via Supabase Auth
+- 🔐 **Déconnexion**
+- 🔐 **Row Level Security (RLS)** sur toutes les tables
+
+## 🚀 Technologies Utilisées
+
+- **[Nuxt 3](https://nuxt.com/)** - Framework Vue.js full-stack
+- **[Vue 3](https://vuejs.org/)** - Framework JavaScript progressif
+- **[Nuxt UI](https://ui.nuxt.com/)** - Bibliothèque de composants UI
+- **[Supabase](https://supabase.com/)** - Backend as a Service (BaaS)
+  - PostgreSQL Database
+  - Authentication
+  - Storage (avatars)
+  - Row Level Security
+- **[TypeScript](https://www.typescriptlang.org/)** - Typage statique
+- **[Pinia](https://pinia.vuejs.org/)** - State management
+- **[MDC](https://github.com/nuxt-modules/mdc)** - Markdown Component pour les descriptions
+
+## 📋 Prérequis
+
+- **Node.js** 18.x ou supérieur
+- **npm** ou **yarn** ou **pnpm**
+- **Compte Supabase** (gratuit)
+
+## 🛠️ Installation
+
+### 1. Cloner le projet
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+git clone <url-du-repo>
+cd faq-emt-tti
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+### 2. Installer les dépendances
 
 ```bash
-# npm
+npm install
+# ou
+yarn install
+# ou
+pnpm install
+```
+
+### 3. Configuration Supabase
+
+#### 3.1 Créer un projet Supabase
+
+1. Allez sur [supabase.com](https://supabase.com)
+2. Créez un nouveau projet
+3. Notez votre **URL du projet** et votre **clé API anonyme**
+
+#### 3.2 Configurer les variables d'environnement
+
+Créez un fichier `.env` à la racine du projet :
+
+```env
+SUPABASE_URL=votre_url_supabase
+SUPABASE_KEY=votre_cle_api_supabase
+```
+
+#### 3.3 Exécuter les scripts SQL
+
+Dans l'éditeur SQL de Supabase, exécutez les scripts suivants **dans cet ordre** :
+
+1. **`supabase_schema.sql`** - Crée les tables de base
+2. **`supabase_migration_answered.sql`** - Ajoute la colonne `is_answered`
+3. **`supabase_fix_rls.sql`** - Configure les politiques RLS
+4. **`supabase_storage_policies.sql`** - Configure le stockage des avatars
+5. **`supabase_admin_delete_comments.sql`** - Permissions admin pour les commentaires
+
+#### 3.4 Créer le bucket de stockage
+
+1. Dans Supabase Dashboard → **Storage**
+2. Créez un nouveau bucket **public** nommé `avatars`
+3. Les politiques RLS seront appliquées par le script SQL
+
+### 4. Lancer l'application
+
+```bash
+npm run dev
+```
+
+L'application sera accessible sur [http://localhost:3000](http://localhost:3000)
+
+## 📁 Structure du Projet
+
+```
+faq-emt-tti/
+├── app/                          # Code source de l'application
+│   ├── assets/                   # Images et ressources
+│   │   ├── nerd_cat.png         # Logo de l'application
+│   │   └── favicon.ico          # (optionnel)
+│   ├── components/              # Composants Vue réutilisables
+│   │   ├── CommentSection.vue   # Section de commentaires
+│   │   ├── ConfirmDialog.vue    # Dialogue de confirmation
+│   │   ├── QuestionCard.vue     # Carte de question compacte
+│   │   ├── QuestionFilters.vue  # Filtres de recherche
+│   │   └── QuestionPagination.vue # Pagination
+│   ├── layouts/                 # Layouts de l'application
+│   │   └── default.vue          # Layout principal avec navbar
+│   ├── pages/                   # Pages de l'application (routing auto)
+│   │   ├── index.vue            # Page d'accueil (liste des questions)
+│   │   ├── login.vue            # Page de connexion
+│   │   ├── register.vue         # Page d'inscription
+│   │   ├── profile.vue          # Page de profil utilisateur
+│   │   ├── my-questions.vue     # Mes questions
+│   │   └── questions/
+│   │       ├── new.vue          # Créer une question
+│   │       └── [id].vue         # Détails d'une question
+│   └── app.vue                  # Composant racine
+├── public/                      # Fichiers statiques
+│   ├── favicon.ico              # Favicon
+│   └── nerd_cat.png            # Logo (copie)
+├── supabase_*.sql              # Scripts SQL pour la base de données
+├── nuxt.config.ts              # Configuration Nuxt
+├── package.json                # Dépendances du projet
+└── README.md                   # Ce fichier
+```
+
+## 🎯 Guide d'Utilisation
+
+### Pour les Étudiants
+
+#### Poser une Question
+
+1. **Connectez-vous** ou **inscrivez-vous**
+2. Cliquez sur **"Poser une question"** dans l'en-tête
+3. Remplissez le formulaire :
+   - **Titre** : Question concise
+   - **Description** : Détails en Markdown
+   - **Tags** : Jusqu'à 5 tags (séparés par des virgules)
+4. Cliquez sur **"Poser la question"**
+
+#### Répondre via Commentaires
+
+1. Ouvrez une question
+2. Tapez votre réponse dans le champ de commentaire
+3. Cliquez sur **"Publier"**
+
+#### Marquer une Question comme Répondue
+
+1. Ouvrez **votre question**
+2. Cliquez sur **"Marquer comme répondu"**
+3. Un badge vert apparaîtra sur la question
+
+#### Modifier son Profil
+
+1. Cliquez sur **"Profil"** dans l'en-tête
+2. Modifiez votre **nom d'utilisateur**
+3. Uploadez une **photo de profil** (optionnel, max 2MB)
+4. Cliquez sur **"Enregistrer"**
+
+### Pour les Administrateurs
+
+#### Activer les Permissions Admin
+
+1. Dans Supabase Dashboard → **Table Editor** → **profiles**
+2. Trouvez l'utilisateur à promouvoir
+3. Cochez la case `is_admin`
+
+#### Supprimer des Commentaires
+
+Les administrateurs voient un bouton **"Supprimer"** sur **tous** les commentaires, pas seulement les leurs.
+
+## 🔒 Sécurité
+
+### Row Level Security (RLS)
+
+Toutes les tables utilisent RLS pour garantir que :
+- Les utilisateurs ne peuvent modifier que leurs propres données
+- Les questions et commentaires sont visibles par tous
+- Les avatars sont stockés dans des dossiers utilisateur séparés
+- Les administrateurs ont des permissions étendues
+
+### Validation
+
+- **Taille des fichiers** : Max 2MB pour les avatars
+- **Types de fichiers** : Seulement les images pour les avatars
+- **Limite de tags** : Maximum 5 tags par question
+- **Authentification** : Requise pour toutes les actions de création/modification
+
+## 🎨 Personnalisation
+
+### Changer le Thème
+
+L'application supporte automatiquement les modes clair et sombre. Utilisez le bouton soleil/lune dans l'en-tête.
+
+### Modifier les Couleurs
+
+Les couleurs sont gérées par Nuxt UI. Pour les personnaliser, modifiez `nuxt.config.ts` :
+
+```typescript
+export default defineNuxtConfig({
+  ui: {
+    primary: 'blue', // Changez la couleur primaire
+    gray: 'slate'     // Changez la couleur grise
+  }
+})
+```
+
+## 🐛 Dépannage
+
+### Le favicon ne s'affiche pas
+
+1. Videz le cache du navigateur (Ctrl+Shift+Delete)
+2. Rechargez avec Ctrl+F5
+3. Redémarrez le serveur de développement
+
+### Les images ne se chargent pas
+
+- Vérifiez que le bucket `avatars` existe dans Supabase Storage
+- Vérifiez que les politiques RLS sont appliquées
+- Vérifiez que le bucket est **public**
+
+### Erreurs de base de données
+
+- Assurez-vous que tous les scripts SQL ont été exécutés dans l'ordre
+- Vérifiez les logs dans Supabase Dashboard → **Database** → **Logs**
+
+## 📝 Scripts Disponibles
+
+```bash
+# Développement
 npm run dev
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
+# Build pour production
 npm run build
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
+# Prévisualiser le build de production
 npm run preview
 
-# pnpm
-pnpm preview
+# Générer un site statique
+npm run generate
 
-# yarn
-yarn preview
-
-# bun
-bun run preview
+# Linter
+npm run lint
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 🤝 Contribution
 
-## GitHub Pages Deployment
+Les contributions sont les bienvenues ! Pour contribuer :
 
-This project includes a GitHub Action that automatically builds and deploys to GitHub Pages on every push to the `main` branch.
+1. Forkez le projet
+2. Créez une branche (`git checkout -b feature/AmazingFeature`)
+3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Poussez vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrez une Pull Request
 
-### Setup Required Secrets
+## 📄 Licence
 
-Before the deployment can work, you need to configure the following secrets in your GitHub repository:
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
-1. Go to your repository on GitHub
-2. Navigate to **Settings** > **Secrets and variables** > **Actions**
-3. Click **New repository secret** and add:
-   - `SUPABASE_URL`: Your Supabase project URL (e.g., `https://your-project.supabase.co`)
-   - `SUPABASE_KEY`: Your Supabase **anonymous/public** key (anon key) - **never** use the service role key
-   - `NUXT_PUBLIC_SITE_URL`: Your production site URL (e.g., `https://your-app.github.io/your-repo`) - This is required for email confirmation links to work correctly
+## 👥 Auteurs
 
-> **Note**: The anonymous key is safe to use in client-side applications as it only allows operations permitted by your Row Level Security (RLS) policies. You can find these values in your Supabase project under **Settings** > **API**.
+- **EMT** - École des Métiers Techniques
 
-### Enable GitHub Pages
+## 🙏 Remerciements
 
-1. Go to your repository on GitHub
-2. Navigate to **Settings** > **Pages**
-3. Under **Build and deployment**, set **Source** to **GitHub Actions**
+- [Nuxt](https://nuxt.com/) pour le framework incroyable
+- [Supabase](https://supabase.com/) pour le backend simple et puissant
+- [Nuxt UI](https://ui.nuxt.com/) pour les composants magnifiques
+- Tous les étudiants qui utilisent cette plateforme !
 
-Once configured, every push to the `main` branch will automatically build and deploy your site to GitHub Pages.
+---
+
+**Fait avec ❤️ pour les étudiants de l'EMT**
