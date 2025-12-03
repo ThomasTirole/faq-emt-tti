@@ -10,7 +10,7 @@
           {{ question.title }}
         </h3>
         <UBadge v-if="question.is_answered" color="green" variant="soft" size="xs" class="flex-shrink-0">
-          ✓ Answered
+          ✓ Répondue
         </UBadge>
       </div>
 
