@@ -294,9 +294,12 @@ Les contributions sont les bienvenues ! Pour contribuer :
 
 Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
-## 👥 Auteurs
+## 👥 Auteur
 
-- **EMT** - École des Métiers Techniques
+- Thomas TIROLE - [GitHub](https://github.com/ThomasTirole)
+- pour l'**EMT** - École des Métiers Techniques - Section informatique
+
+> Projet réalisé dans un cadre de test de Antigravity avec Gemini Pro 3 et Claude Sonnet 4.5.
 
 ## 🙏 Remerciements
 
