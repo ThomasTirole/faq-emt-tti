@@ -1,26 +1,26 @@
 <template>
   <div class="max-w-3xl mx-auto">
-    <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Ask a Question</h1>
+    <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Poser une question</h1>
     
     <form @submit.prevent="submitQuestion" class="space-y-6">
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Title</label>
-        <UInput v-model="title" placeholder="What's your question?" required />
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Titre</label>
+        <UInput v-model="title" placeholder="Quelle est votre question ?" required />
       </div>
 
       <div>
         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Description (Markdown)</label>
-        <UTextarea v-model="description" :rows="10" placeholder="Describe your problem..." required />
+        <UTextarea v-model="description" :rows="10" placeholder="Décrivez votre problème..." required />
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Tags (comma separated, max 5)</label>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Tags (séparés par des virgules, max 5)</label>
         <UInput v-model="tagsInput" placeholder="html, css, flexbox" />
       </div>
 
       <div class="flex justify-end gap-4">
-        <UButton to="/" color="gray" variant="ghost">Cancel</UButton>
-        <UButton type="submit" :loading="loading">Post Question</UButton>
+        <UButton to="/" color="gray" variant="ghost">Annuler</UButton>
+        <UButton type="submit" :loading="loading">Poser la question</UButton>
       </div>
     </form>
   </div>

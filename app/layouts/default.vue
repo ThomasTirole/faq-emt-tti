@@ -3,16 +3,19 @@
     <nav class="bg-white dark:bg-gray-800 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-          <div class="flex items-center gap-8">
-            <NuxtLink to="/" class="text-xl font-bold text-gray-900 dark:text-white">Pakompri</NuxtLink>
-            <NuxtLink 
-              v-if="user"
-              to="/my-questions" 
-              class="flex items-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-            >
-              Mes Questions
-            </NuxtLink>
-          </div>
+        <div class="flex items-center gap-8">
+          <NuxtLink to="/" class="flex items-center gap-2">
+            <img src="~/assets/nerd_cat.png" alt="Pakompri Logo" class="w-8 h-8 rounded-full" />
+            <span class="text-xl font-bold text-gray-900 dark:text-white">Pakompri</span>
+          </NuxtLink>
+          <NuxtLink 
+            v-if="user"
+            to="/my-questions" 
+            class="flex items-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+          >
+            Mes questions
+          </NuxtLink>
+        </div>
           <div class="flex items-center gap-3">
             <!-- Theme Switcher -->
             <UButton

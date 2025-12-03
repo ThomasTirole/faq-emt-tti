@@ -1,10 +1,10 @@
 <template>
   <div class="max-w-2xl mx-auto">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">My Profile</h1>
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Mon profil</h1>
 
     <div v-if="!user" class="text-center py-10">
-      <p class="text-gray-600 dark:text-gray-400 mb-4">Please login to view your profile.</p>
-      <UButton to="/login">Login</UButton>
+      <p class="text-gray-600 dark:text-gray-400 mb-4">Veuillez vous connecter pour voir votre profil.</p>
+      <UButton to="/login">Connexion</UButton>
     </div>
 
     <div v-else-if="loading" class="space-y-4">
@@ -39,15 +39,15 @@
             />
           </div>
           <div class="flex-1">
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Profile Picture</p>
-            <p class="text-xs text-gray-500">Max size: 2MB. Recommended: 256x256px</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Photo de profil</p>
+            <p class="text-xs text-gray-500">Taille max: 2MB. Recommandé: 256x256px</p>
           </div>
         </div>
 
         <!-- Username -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Username</label>
-          <UInput v-model="username" placeholder="Enter your username" required />
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Nom d'utilisateur</label>
+          <UInput v-model="username" placeholder="Entrez votre nom d'utilisateur" required />
         </div>
 
         <!-- Email (readonly) -->
@@ -58,8 +58,8 @@
 
         <!-- Save Button -->
         <div class="flex justify-end gap-4">
-          <UButton to="/" color="gray" variant="ghost">Cancel</UButton>
-          <UButton type="submit" :loading="saving">Save Changes</UButton>
+          <UButton to="/" color="gray" variant="ghost">Annuler</UButton>
+          <UButton type="submit" :loading="saving">Enregistrer</UButton>
         </div>
       </form>
     </div>
@@ -109,8 +109,8 @@ const handleAvatarUpload = (event: Event) => {
   // Check file size (2MB max)
   if (file.size > 2 * 1024 * 1024) {
     useToast().add({
-      title: 'Error',
-      description: 'File size must be less than 2MB',
+      title: 'Erreur',
+      description: 'La taille du fichier doit être inférieure à 2MB',
       color: 'red'
     })
     return
@@ -119,8 +119,8 @@ const handleAvatarUpload = (event: Event) => {
   // Check file type
   if (!file.type.startsWith('image/')) {
     useToast().add({
-      title: 'Error',
-      description: 'Please upload an image file',
+      title: 'Erreur',
+      description: 'Veuillez télécharger un fichier image',
       color: 'red'
     })
     return
@@ -178,14 +178,14 @@ const saveProfile = async () => {
     await refreshNuxtData('my-questions')
     
     useToast().add({
-      title: 'Success',
-      description: 'Profile updated successfully!',
+      title: 'Succès',
+      description: 'Profil mis à jour avec succès !',
       color: 'green'
     })
     router.push('/')
   } catch (error: any) {
     useToast().add({
-      title: 'Error',
+      title: 'Erreur',
       description: error.message,
       color: 'red'
     })

@@ -4,7 +4,7 @@
       :model-value="searchQuery" 
       @update:model-value="$emit('update:searchQuery', $event)"
       icon="i-heroicons-magnifying-glass"
-      placeholder="Search questions by title or description..." 
+      placeholder="Rechercher des questions par titre ou description..." 
       size="lg"
     />
     
@@ -13,7 +13,9 @@
         :model-value="statusFilter" 
         @update:model-value="$emit('update:statusFilter', $event)"
         :options="statusOptions"
-        placeholder="Filter by status"
+        value-attribute="value"
+        option-attribute="label"
+        placeholder="Filtrer par statut"
       />
       
       <div v-if="allTags.length > 0" class="flex gap-2 items-center flex-wrap">
@@ -48,9 +50,9 @@ const emit = defineEmits<{
 }>()
 
 const statusOptions = [
-  { label: 'All Questions', value: 'all' },
-  { label: 'Answered', value: 'answered' },
-  { label: 'Unanswered', value: 'unanswered' }
+  { label: 'Toutes les questions', value: 'all' },
+  { label: 'Répondues', value: 'answered' },
+  { label: 'Non répondues', value: 'unanswered' }
 ]
 
 const toggleTag = (tag: string) => {

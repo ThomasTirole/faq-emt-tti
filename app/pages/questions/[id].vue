@@ -10,14 +10,14 @@
   </div>
 
   <div v-else>
-    <UButton to="/" color="gray" variant="ghost" icon="i-heroicons-arrow-left" class="mb-4">Back to Questions</UButton>
+    <UButton to="/" color="gray" variant="ghost" icon="i-heroicons-arrow-left" class="mb-4">Retour aux questions</UButton>
     
     <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
       <div class="flex justify-between items-start mb-4">
         <div class="flex items-center gap-3">
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ question.title }}</h1>
           <UBadge v-if="question.is_answered" color="green" variant="soft">
-            ✓ Answered
+            ✓ Répondu
           </UBadge>
         </div>
         <div class="flex gap-2 items-center">
@@ -34,7 +34,7 @@
             @click="toggleAnswered"
             :loading="toggling"
           >
-            {{ question.is_answered ? 'Mark Unanswered' : 'Mark Answered' }}
+            {{ question.is_answered ? 'Marquer comme non répondu' : 'Marquer comme répondu' }}
           </UButton>
           <UButton 
             v-if="canDelete"
@@ -45,7 +45,7 @@
             @click="deleteQuestion"
             :loading="deleting"
           >
-            Delete
+            Supprimer
           </UButton>
         </div>
       </div>
@@ -88,9 +88,9 @@
     <!-- Delete Confirmation Dialog -->
     <ConfirmDialog 
       v-model="showDeleteDialog"
-      title="Delete Question"
-      message="Are you sure you want to delete this question? This will also delete all comments."
-      confirm-text="Delete"
+      title="Supprimer la question"
+      message="Êtes-vous sûr de vouloir supprimer cette question ? Cela supprimera également tous les commentaires."
+      confirm-text="Supprimer"
       confirm-color="red"
       @confirm="confirmDelete"
     />

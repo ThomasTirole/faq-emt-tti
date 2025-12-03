@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Questions Récentes</h1>
-      <UButton v-if="user" to="/questions/new" icon="i-heroicons-plus">Poser une Question</UButton>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Questions récentes</h1>
+      <UButton v-if="user" to="/questions/new" icon="i-heroicons-plus">Poser une question</UButton>
     </div>
 
     <!-- Search and Filter -->
@@ -79,9 +79,9 @@ const currentPage = ref(1)
 const perPage = 20
 
 const statusOptions = [
-  { label: 'Toutes les Questions', value: 'all' },
+  { label: 'Toutes les questions', value: 'all' },
   { label: 'Répondues', value: 'answered' },
-  { label: 'Non Répondues', value: 'unanswered' }
+  { label: 'Non répondues', value: 'unanswered' }
 ]
 
 const { data: questions, pending, error, refresh } = await useAsyncData('questions', async () => {

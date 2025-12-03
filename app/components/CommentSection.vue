@@ -1,6 +1,6 @@
 <template>
   <div class="mt-8">
-    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Comments</h2>
+    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Commentaires</h2>
 
     <!-- Comment Form -->
     <div v-if="user" class="mb-6">
@@ -8,15 +8,15 @@
         <UTextarea 
           v-model="newComment" 
           :rows="3" 
-          placeholder="Add a comment..." 
+          placeholder="Ajouter un commentaire..." 
           required 
         />
-        <UButton type="submit" :loading="submitting">Post Comment</UButton>
+        <UButton type="submit" :loading="submitting">Publier</UButton>
       </form>
     </div>
     <div v-else class="mb-6 p-4 bg-gray-100 dark:bg-gray-800 rounded">
       <p class="text-sm text-gray-600 dark:text-gray-400">
-        Please <NuxtLink to="/login" class="text-primary-600 hover:underline">login</NuxtLink> to comment.
+        Veuillez <NuxtLink to="/login" class="text-primary-600 hover:underline">vous connecter</NuxtLink> pour commenter.
       </p>
     </div>
 
@@ -26,7 +26,7 @@
     </div>
 
     <div v-else-if="comments && comments.length === 0" class="text-center py-6 text-gray-500">
-      No comments yet. Be the first to comment!
+      Aucun commentaire pour le moment. Soyez le premier à commenter !
     </div>
 
     <div v-else class="space-y-4">
@@ -66,9 +66,9 @@
     <!-- Delete Comment Confirmation Dialog -->
     <ConfirmDialog 
       v-model="showDeleteCommentDialog"
-      title="Delete Comment"
-      message="Are you sure you want to delete this comment?"
-      confirm-text="Delete"
+      title="Supprimer le commentaire"
+      message="Êtes-vous sûr de vouloir supprimer ce commentaire ?"
+      confirm-text="Supprimer"
       confirm-color="red"
       @confirm="confirmDeleteComment"
     />
@@ -141,7 +141,7 @@ const submitComment = async () => {
     await refresh()
   } catch (error: any) {
     useToast().add({
-      title: 'Error',
+      title: 'Erreur',
       description: error.message,
       color: 'red'
     })

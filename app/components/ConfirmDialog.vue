@@ -10,7 +10,7 @@
       <template #footer>
         <div class="flex justify-end gap-3">
           <UButton color="gray" variant="ghost" @click="cancel">
-            Cancel
+            Annuler
           </UButton>
           <UButton :color="confirmColor" @click="confirm">
             {{ confirmText }}

@@ -2,35 +2,35 @@
   <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
-        Sign in to your account
+        Se connecter
       </h2>
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form class="space-y-6" @submit.prevent="handleLogin">
         <div>
-          <label for="email" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Email address</label>
+          <label for="email" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Email</label>
           <div class="mt-2">
             <UInput id="email" v-model="email" type="email" required />
           </div>
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Password</label>
+          <label for="password" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Mot de passe</label>
           <div class="mt-2">
             <UInput id="password" v-model="password" type="password" required />
           </div>
         </div>
 
         <div>
-          <UButton type="submit" block :loading="loading">Sign in</UButton>
+          <UButton type="submit" block :loading="loading">Se connecter</UButton>
         </div>
       </form>
 
       <p class="mt-10 text-center text-sm text-gray-500">
-        Not a member?
+        Pas de compte ?
         <NuxtLink to="/register" class="font-semibold leading-6 text-primary-600 hover:text-primary-500">
-          Register now
+          S'inscrire
         </NuxtLink>
       </p>
     </div>

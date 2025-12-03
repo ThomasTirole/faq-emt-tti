@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">My Questions</h1>
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Mes questions</h1>
 
     <div v-if="!user" class="text-center py-10">
-      <p class="text-gray-600 dark:text-gray-400 mb-4">Please login to view your questions.</p>
-      <UButton to="/login">Login</UButton>
+      <p class="text-gray-600 dark:text-gray-400 mb-4">Veuillez vous connecter pour voir vos questions.</p>
+      <UButton to="/login">Connexion</UButton>
     </div>
 
     <div v-else-if="pending" class="space-y-4">
@@ -12,12 +12,12 @@
     </div>
 
     <div v-else-if="error" class="text-red-500">
-      Error loading questions: {{ error.message }}
+      Erreur lors du chargement des questions: {{ error.message }}
     </div>
 
     <div v-else-if="questions && questions.length === 0" class="text-center py-10 text-gray-500">
-      You haven't asked any questions yet.
-      <UButton to="/questions/new" class="mt-4">Ask Your First Question</UButton>
+      Vous n'avez pas posé de questions.
+      <UButton to="/questions/new" class="mt-4">Poser votre première question</UButton>
     </div>
 
     <div v-else>
@@ -31,7 +31,7 @@
 
       <!-- Questions List -->
       <div v-if="filteredQuestions.length === 0" class="text-center py-10 text-gray-500">
-        No questions match your filters.
+        Aucune question ne correspond à vos filtres.
       </div>
 
       <div v-else class="space-y-4">
