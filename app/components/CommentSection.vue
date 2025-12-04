@@ -58,7 +58,7 @@
           />
         </div>
         <div class="prose dark:prose-invert prose-sm max-w-none">
-          <MDC :value="comment.content" />
+          <MDC :value="sanitizeMarkdown(comment.content)" />
         </div>
       </div>
     </div>
@@ -76,6 +76,8 @@
 </template>
 
 <script setup lang="ts">
+import { sanitizeMarkdown } from '~/utils/markdown'
+
 const props = defineProps<{
   questionId: number
 }>()
