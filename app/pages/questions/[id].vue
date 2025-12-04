@@ -13,40 +13,45 @@
     <UButton to="/" color="gray" variant="ghost" icon="i-heroicons-arrow-left" class="mb-4">Retour aux questions</UButton>
     
     <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-      <div class="flex justify-between items-start mb-4">
-        <div class="flex items-center gap-3">
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ question.title }}</h1>
-          <UBadge v-if="question.is_answered" color="green" variant="soft">
-            ✓ Répondu
-          </UBadge>
+      <div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
+        <div class="flex flex-col gap-2 w-full sm:w-auto flex-1 min-w-0">
+          <div class="flex items-start gap-3 flex-wrap">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white break-words">{{ question.title }}</h1>
+            <UBadge v-if="question.is_answered" color="green" variant="soft" class="mt-1">
+              ✓ Répondu
+            </UBadge>
+          </div>
         </div>
-        <div class="flex gap-2 items-center">
-          <div class="flex items-center gap-1 text-sm text-gray-500">
+        <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto justify-between sm:justify-end">
+          <div class="flex items-center gap-1 text-sm text-gray-500 mr-2">
             <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
             <span>{{ formatDate(question.created_at) }}</span>
           </div>
-          <UButton 
-            v-if="canToggleAnswered"
-            :color="question.is_answered ? 'gray' : 'green'" 
-            variant="ghost" 
-            size="sm"
-            :icon="question.is_answered ? 'i-heroicons-x-mark' : 'i-heroicons-check'"
-            @click="toggleAnswered"
-            :loading="toggling"
-          >
-            {{ question.is_answered ? 'Marquer comme non répondu' : 'Marquer comme répondu' }}
-          </UButton>
-          <UButton 
-            v-if="canDelete"
-            color="red" 
-            variant="ghost" 
-            size="sm"
-            icon="i-heroicons-trash"
-            @click="deleteQuestion"
-            :loading="deleting"
-          >
-            Supprimer
-          </UButton>
+          <div class="flex gap-2">
+            <UButton 
+              v-if="canToggleAnswered"
+              :color="question.is_answered ? 'gray' : 'green'" 
+              variant="ghost" 
+              size="sm"
+              :icon="question.is_answered ? 'i-heroicons-x-mark' : 'i-heroicons-check'"
+              @click="toggleAnswered"
+              :loading="toggling"
+            >
+              <span class="hidden sm:inline">{{ question.is_answered ? 'Marquer comme non répondu' : 'Marquer comme répondu' }}</span>
+              <span class="sm:hidden">{{ question.is_answered ? 'Non répondu' : 'Répondu' }}</span>
+            </UButton>
+            <UButton 
+              v-if="canDelete"
+              color="red" 
+              variant="ghost" 
+              size="sm"
+              icon="i-heroicons-trash"
+              @click="deleteQuestion"
+              :loading="deleting"
+            >
+              <span class="hidden sm:inline">Supprimer</span>
+            </UButton>
+          </div>
         </div>
       </div>
 

@@ -3,20 +3,22 @@
     <nav class="bg-white dark:bg-gray-800 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-        <div class="flex items-center gap-8">
-          <NuxtLink to="/" class="flex items-center gap-2">
-            <img src="~/assets/nerd_cat.png" alt="Pakompri Logo" class="w-8 h-8 rounded-full" />
-            <span class="text-xl font-bold text-gray-900 dark:text-white">Pakompri</span>
-          </NuxtLink>
-          <NuxtLink 
-            v-if="user"
-            to="/my-questions" 
-            class="flex items-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-          >
-            Mes questions
-          </NuxtLink>
-        </div>
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-4 sm:gap-8">
+            <NuxtLink to="/" class="flex items-center gap-2">
+              <img src="~/assets/nerd_cat.png" alt="Pakompri Logo" class="w-8 h-8 rounded-full" />
+              <span class="text-xl font-bold text-gray-900 dark:text-white hidden sm:block">Pakompri</span>
+            </NuxtLink>
+            <NuxtLink 
+              v-if="user"
+              to="/my-questions" 
+              class="flex items-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              title="Mes questions"
+            >
+              <span class="hidden sm:block">Mes questions</span>
+              <UIcon name="i-heroicons-question-mark-circle" class="sm:hidden w-6 h-6" />
+            </NuxtLink>
+          </div>
+          <div class="flex items-center gap-2 sm:gap-3">
             <!-- Theme Switcher -->
             <UButton
               :icon="isDark ? 'i-heroicons-moon' : 'i-heroicons-sun'"
@@ -27,12 +29,22 @@
             />
             
             <template v-if="user">
-              <UButton to="/profile" color="gray" variant="ghost" icon="i-heroicons-user-circle" class="mr-2">Profil</UButton>
-              <UButton color="gray" variant="ghost" @click="logout">Déconnexion</UButton>
+              <UButton to="/profile" color="gray" variant="ghost" icon="i-heroicons-user-circle" class="mr-2">
+                <span class="hidden sm:block">Profil</span>
+              </UButton>
+              <UButton color="gray" variant="ghost" @click="logout" icon="i-heroicons-arrow-right-on-rectangle">
+                <span class="hidden sm:block">Déconnexion</span>
+              </UButton>
             </template>
             <template v-else>
-              <UButton to="/login" color="primary" variant="ghost" class="mr-2">Connexion</UButton>
-              <UButton to="/register" color="primary" variant="solid">Inscription</UButton>
+              <UButton to="/login" color="primary" variant="ghost" class="mr-2">
+                <span class="hidden sm:block">Connexion</span>
+                <span class="sm:hidden">Connexion</span>
+              </UButton>
+              <UButton to="/register" color="primary" variant="solid">
+                <span class="hidden sm:block">Inscription</span>
+                <span class="sm:hidden">Inscription</span>
+              </UButton>
             </template>
           </div>
         </div>
