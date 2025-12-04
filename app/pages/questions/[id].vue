@@ -70,7 +70,7 @@
       </div>
 
       <div class="prose dark:prose-invert max-w-none mb-6">
-        <MDC :value="question.description" />
+        <MDC :value="sanitizedDescription" />
       </div>
     
       <!-- Separator -->
@@ -107,6 +107,7 @@ const route = useRoute()
 const router = useRouter()
 const client = useSupabaseClient()
 const user = useSupabaseUser()
+import { sanitizeMarkdown } from '~/utils/markdown'
 
 const deleting = ref(false)
 const toggling = ref(false)
@@ -123,6 +124,10 @@ const { data: question, pending, error, refresh } = await useAsyncData(`question
     .single()
   return data
 }, { server: false })
+
+const sanitizedDescription = computed(() => {
+  return sanitizeMarkdown(question.value?.description || '')
+})
 
 // Fetch current user's profile to check admin status
 const { data: userProfile, refresh: refreshUserProfile } = await useAsyncData('current-user-profile', async () => {
