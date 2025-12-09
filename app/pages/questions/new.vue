@@ -10,7 +10,7 @@
 
       <div>
         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Description (Markdown)</label>
-        <UTextarea v-model="description" :rows="10" placeholder="Décrivez votre problème..." required />
+        <MarkdownEditor v-model="description" placeholder="Décrivez votre problème..." required />
       </div>
 
       <div>

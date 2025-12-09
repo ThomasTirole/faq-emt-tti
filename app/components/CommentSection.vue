@@ -5,11 +5,11 @@
     <!-- Comment Form -->
     <div v-if="user" class="mb-6">
       <form @submit.prevent="submitComment" class="space-y-4">
-        <UTextarea 
+        <MarkdownEditor 
           v-model="newComment" 
-          :rows="3" 
+          :rows="3"
           placeholder="Ajouter un commentaire..." 
-          required 
+          required
         />
         <UButton type="submit" :loading="submitting">Publier</UButton>
       </form>
