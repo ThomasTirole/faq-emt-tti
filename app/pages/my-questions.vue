@@ -65,7 +65,7 @@ const { data: questions, pending, error, refresh } = await useAsyncData('my-ques
     .from('questions')
     .select(`
       *,
-      profiles (username, avatar_url)
+      profiles!user_id (username, avatar_url)
     `)
     .eq('user_id', user.value.id)
     .order('created_at', { ascending: false })

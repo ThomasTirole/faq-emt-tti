@@ -89,7 +89,7 @@ const { data: questions, pending, error, refresh } = await useAsyncData('questio
     .from('questions')
     .select(`
       *,
-      profiles (username, avatar_url),
+      profiles!user_id (username, avatar_url),
       comment_count:comments(count)
     `)
     .order('created_at', { ascending: false })

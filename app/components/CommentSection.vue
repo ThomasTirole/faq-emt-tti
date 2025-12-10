@@ -45,20 +45,50 @@
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
               {{ comment.profiles?.username || 'Anonymous' }}
             </span>
-            <span class="text-xs text-gray-500">{{ formatDate(comment.created_at) }}</span>
+            <span class="text-xs text-gray-500">
+              {{ formatDate(comment.created_at) }}
+              <span v-if="comment.updated_at && comment.updated_at !== comment.created_at" class="italic ml-1">(Modifié)</span>
+            </span>
           </div>
-          <UButton 
-            v-if="user && (user.id === comment.user_id || userProfile?.is_admin)"
-            color="red" 
-            variant="ghost" 
-            size="xs"
-            icon="i-heroicons-trash"
-            @click="deleteComment(comment.id)"
-            :loading="deletingCommentId === comment.id"
-          />
+          
+          <div v-if="user && (user.id === comment.user_id || userProfile?.is_admin)" class="flex gap-1">
+             <UButton 
+              v-if="editingCommentId !== comment.id"
+              color="primary" 
+              variant="ghost" 
+              size="xs"
+              icon="i-heroicons-pencil-square"
+              @click="startEditing(comment)"
+            />
+            <UButton 
+              v-if="editingCommentId !== comment.id"
+              color="red" 
+              variant="ghost" 
+              size="xs"
+              icon="i-heroicons-trash"
+              @click="deleteComment(comment.id)"
+              :loading="deletingCommentId === comment.id"
+            />
+          </div>
         </div>
-        <div class="prose dark:prose-invert prose-sm max-w-none">
+
+        <!-- View Mode -->
+        <div v-if="editingCommentId !== comment.id" class="prose dark:prose-invert prose-sm max-w-none">
           <MDC :value="sanitizeMarkdown(comment.content)" />
+        </div>
+
+        <!-- Edit Mode -->
+        <div v-else class="mt-2">
+          <form @submit.prevent="saveEdit(comment.id)" class="space-y-2">
+             <MarkdownEditor 
+              v-model="editContent" 
+              :rows="3" 
+            />
+            <div class="flex justify-end gap-2">
+              <UButton size="xs" color="gray" variant="ghost" @click="cancelEdit">Annuler</UButton>
+              <UButton size="xs" type="submit" :loading="savingCommentId === comment.id">Enregistrer</UButton>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -91,6 +121,11 @@ const deletingCommentId = ref<number | null>(null)
 const showDeleteCommentDialog = ref(false)
 const commentToDelete = ref<number | null>(null)
 
+// Edit state
+const editingCommentId = ref<number | null>(null)
+const editContent = ref('')
+const savingCommentId = ref<number | null>(null)
+
 // Fetch user profile to check admin status
 const { data: userProfile } = await useAsyncData('comment-user-profile', async () => {
   if (!user.value) return null
@@ -110,7 +145,7 @@ const { data: comments, pending, refresh } = await useAsyncData(
       .from('comments')
       .select(`
         *,
-        profiles (username, avatar_url)
+        profiles!user_id (username, avatar_url)
       `)
       .eq('question_id', props.questionId)
       .order('created_at', { ascending: true })
@@ -149,6 +184,46 @@ const submitComment = async () => {
     })
   } finally {
     submitting.value = false
+  }
+}
+
+const startEditing = (comment: any) => {
+  editingCommentId.value = comment.id
+  editContent.value = comment.content
+}
+
+const cancelEdit = () => {
+  editingCommentId.value = null
+  editContent.value = ''
+}
+
+const saveEdit = async (commentId: number) => {
+  if (!user.value) return
+  
+  savingCommentId.value = commentId
+  try {
+    const { error } = await client
+      .from('comments')
+      .update({
+        content: editContent.value,
+        updated_at: new Date().toISOString(),
+        last_editor_id: user.value.id
+      })
+      .eq('id', commentId)
+
+    if (error) throw error
+
+    await refresh()
+    editingCommentId.value = null
+    editContent.value = ''
+  } catch (error: any) {
+    useToast().add({
+      title: 'Erreur',
+      description: error.message,
+      color: 'red'
+    })
+  } finally {
+    savingCommentId.value = null
   }
 }
 

@@ -11,6 +11,7 @@
             size="sm"
             @click="format('bold')"
             aria-label="Bold"
+            tabindex="-1"
           />
         </UTooltip>
         
@@ -22,6 +23,7 @@
             size="sm"
             @click="format('italic')"
             aria-label="Italic"
+            tabindex="-1"
           />
         </UTooltip>
 
@@ -35,6 +37,7 @@
             size="sm"
             @click="format('quote')"
             aria-label="Quote"
+            tabindex="-1"
           />
         </UTooltip>
 
@@ -46,6 +49,7 @@
             size="sm"
             @click="format('code_block')"
             aria-label="Code Block"
+            tabindex="-1"
           />
         </UTooltip>
 
@@ -57,6 +61,7 @@
             size="sm"
             @click="format('inline_code')"
             aria-label="Inline Code"
+            tabindex="-1"
           />
         </UTooltip>
 
@@ -70,6 +75,7 @@
             size="sm"
             @click="format('ordered_list')"
             aria-label="Numbered List"
+            tabindex="-1"
           />
         </UTooltip>
 
@@ -81,6 +87,7 @@
             size="sm"
             @click="format('unordered_list')"
             aria-label="Bulleted List"
+            tabindex="-1"
           />
         </UTooltip>
         
@@ -92,6 +99,7 @@
             size="sm"
             @click="format('check_list')"
             aria-label="Check List"
+            tabindex="-1"
           />
         </UTooltip>
 
@@ -103,6 +111,7 @@
             size="xs"
             @click="showPreview = !showPreview"
             :label="showPreview ? 'Masquer aperçu' : 'Afficher aperçu'"
+            tabindex="-1"
         />
       </div>
 
