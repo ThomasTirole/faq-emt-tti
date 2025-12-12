@@ -102,15 +102,17 @@ SUPABASE_URL=votre_url_supabase
 SUPABASE_KEY=votre_cle_api_supabase
 ```
 
-#### 3.3 Exécuter les scripts SQL
+#### 3.3 Exécuter le script SQL de création de la base de données
 
-Dans l'éditeur SQL de Supabase, exécutez les scripts suivants **dans cet ordre** :
+Dans l'éditeur SQL de Supabase :
 
-1. **`supabase_schema.sql`** - Crée les tables de base
-2. **`supabase_migration_answered.sql`** - Ajoute la colonne `is_answered`
-3. **`supabase_fix_rls.sql`** - Configure les politiques RLS
-4. **`supabase_storage_policies.sql`** - Configure le stockage des avatars
-5. **`supabase_admin_delete_comments.sql`** - Permissions admin pour les commentaires
+1. Copiez le contenu de **`supabase_complete_schema.sql`**
+2. Collez-le dans l'éditeur SQL
+3. Exécutez le script
+
+Ce script crée toutes les tables (profiles, questions, comments), les index, les politiques RLS, les fonctions/triggers et les politiques de stockage.
+
+> 📚 Pour plus de détails sur la structure de la base de données, consultez [SQL_DOCUMENTATION.md](./SQL_DOCUMENTATION.md)
 
 #### 3.4 Créer le bucket de stockage
 
@@ -299,7 +301,7 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 - Thomas TIROLE - [GitHub](https://github.com/ThomasTirole)
 - pour l'**EMT** - École des Métiers Techniques - Section informatique
 
-> Projet réalisé dans un cadre de test de Antigravity avec Gemini Pro 3 et Claude Sonnet 4.5.
+> Projet réalisé dans un cadre de test de Antigravity avec Gemini Pro 3 et Claude Sonnet 4.5
 
 ## 🙏 Remerciements
 
